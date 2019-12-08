@@ -57,7 +57,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.all(32.0),
-                  child: Image.asset("assets/images/register_bg.png"),
+                  child: Image.asset("assets/reg_bg.png"),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
