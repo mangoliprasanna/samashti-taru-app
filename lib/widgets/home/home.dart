@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:samashti_app/helpers/user_provider.dart';
 import 'package:samashti_app/widgets/home/profilesection.dart';
-import 'package:samashti_app/widgets/post/item/post.dart';
+import 'package:samashti_app/widgets/post/post.dart';
 
 class HomwWidget extends StatefulWidget {
   HomwWidget({Key key}) : super(key: key);
@@ -61,9 +61,6 @@ class WelcomeUser extends StatelessWidget {
                         fontSize: 18.0),
                   ),
                 ),
-                PostItem(),
-                
-                PostItem(),
               ],
             ),
           ),

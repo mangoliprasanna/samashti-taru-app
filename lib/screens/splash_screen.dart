@@ -2,9 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:samashti_app/helpers/network_helper.dart';
 import 'package:samashti_app/helpers/user_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   SplashScreen({Key key}) : super(key: key);
@@ -19,23 +17,16 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-
     Timer(Duration(seconds: 2), () async {
-      SharedPreferences.getInstance().then((pref) {
-        String accessToken = pref.getString("Auth");
-        if (accessToken != null) {
-          NetworkHelper.getInstance().setToken(accessToken);
-          Provider.of<UserProvider>(context)
-              .setUserByKey(accessToken)
-              .then((b) {
-            Navigator.of(context).pushReplacementNamed("/home");
-          });
-        } else {
-          setState(() {
-            _isLoading = false;
-          });
-        }
-      });
+      bool isUserLoaded = await Provider.of<UserProvider>(context).loadUser();
+      print(isUserLoaded);
+      if(isUserLoaded)
+        Navigator.of(context).pushReplacementNamed("/home");
+      else {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     });
   }
 

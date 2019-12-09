@@ -66,10 +66,6 @@ class PostItem extends StatelessWidget {
             ],
           ),
         ),
-        Container(
-                  color: Colors.grey[300],
-                  height: 20,
-                ),
       ],
     );
   }

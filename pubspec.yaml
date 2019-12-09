@@ -28,7 +28,9 @@ dependencies:
   http:
   shared_preferences:
   sqflite:
+  http_parser:
   path:
+  mime:
 
 dev_dependencies:
   flutter_test:

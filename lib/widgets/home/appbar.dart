@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:samashti_app/helpers/theme_provider.dart';
+import 'package:samashti_app/helpers/user_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CommonAppBarItems extends StatelessWidget {
   List<AppBarItem> itemList = new List();
+  UserProvider currentUser;
+
+  _logoutUser(BuildContext context) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    if(await pref.clear()){
+      currentUser.deleteUser();
+    }
+    Navigator.of(context).pushReplacementNamed("/");
+  }
   
   @override
   Widget build(BuildContext context) {
     var theme = Provider.of<ThemeProvider>(context);
+    currentUser = Provider.of<UserProvider>(context);
     itemList.clear();
     itemList.add(AppBarItem("Profile", 0));
     itemList.add(AppBarItem(
@@ -32,6 +44,10 @@ class CommonAppBarItems extends StatelessWidget {
 
             if(d.functionId == 2)
               theme.setDarkTheme();
+
+            if(d.functionId == 3)
+              _logoutUser(context);
+
           },
           itemBuilder: (BuildContext context) {
             return itemList.map((f) {

@@ -97,6 +97,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return Scaffold(
       key: _globalKey,
+      appBar: AppBar(
+        title: Text("Login"),
+      ),
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.all(16.0),
@@ -105,9 +108,14 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(32.0),
-                child: Image.asset("assets/login_bg.png"),
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.all(32.0),
+                  child: Image.asset(
+                    "assets/login_bg.png",
+                    height: 150,
+                  ),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0),
@@ -131,43 +139,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: const EdgeInsets.all(8.0),
                 child: passwordEditText,
               ),
-              Container(
-                padding: EdgeInsets.all(16.0),
-                width: MediaQuery.of(context).size.width - 50,
-                child: RaisedButton(
-                  padding: EdgeInsets.all(12.0),
-                  color: Theme.of(context).accentColor,
-                  onPressed: () {
-                    if (canLoginClick) {
-                      setState(() {
-                        canLoginClick = false;
-                      });
-                      var email = _emailTxtController.text;
-                      var password = _passwordTxtController.text;
-
-                      if (email.isNotEmpty &&
-                          password.isNotEmpty &&
-                          _emailErrorMsg == null &&
-                          _passwordErrorMsg == null) {
-                        performLogin();
-                      } else {
-                        showSnackbar("Enter requried fields correctly.");
-                        setState(() {});
-                      }
-                    }
-                  },
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  child: Text(
-                    "Login",
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
+              _buildLoginBtn(context),
+              (!canLoginClick) ? LinearProgressIndicator() : SizedBox(),
               FlatButton(
                 onPressed: () {
                   Navigator.of(context).pushNamed("/resetpassword");
@@ -181,8 +154,51 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  Container _buildLoginBtn(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(16.0),
+      width: MediaQuery.of(context).size.width - 50,
+      child: RaisedButton(
+        padding: EdgeInsets.all(12.0),
+        color: Theme.of(context).accentColor,
+        onPressed: () {
+          if (canLoginClick) {
+            setState(() {
+              canLoginClick = false;
+            });
+            var email = _emailTxtController.text;
+            var password = _passwordTxtController.text;
+
+            if (email.isNotEmpty &&
+                password.isNotEmpty &&
+                _emailErrorMsg == null &&
+                _passwordErrorMsg == null) {
+              performLogin();
+            } else {
+              showSnackbar("Enter requried fields correctly.");
+              setState(() {});
+            }
+          }
+        },
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        child: Text(
+          "Login",
+          style: TextStyle(
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+
   void showSnackbar(String message) {
     canLoginClick = true;
+    setState(() {
+      
+    });
     final snackBar = SnackBar(content: Text(message));
     _globalKey.currentState.showSnackBar(snackBar);
   }

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:samashti_app/helpers/theme_provider.dart';
 import 'package:samashti_app/widgets/home/appbar.dart';
 import 'package:samashti_app/widgets/home/home.dart';
+import 'package:samashti_app/widgets/post/new_post.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
@@ -20,7 +21,6 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
-
   List<String> a = ["Profile", "Logout"];
 
   @override
@@ -31,34 +31,23 @@ class _HomeScreenState extends State<HomeScreen> {
       AppBar(
         elevation: 0,
         title: Text("Home"),
-        actions: <Widget>[
-          CommonAppBarItems()
-        ],
-        
+        actions: <Widget>[CommonAppBarItems()],
       ),
       AppBar(
         title: Text("Samyoga"),
-        actions: <Widget>[
-          CommonAppBarItems()
-        ],
+        actions: <Widget>[CommonAppBarItems()],
       ),
       AppBar(
         title: Text("Sankalpa"),
-        actions: <Widget>[
-          CommonAppBarItems()
-        ],
+        actions: <Widget>[CommonAppBarItems()],
       ),
       AppBar(
         title: Text("Samanvaya"),
-        actions: <Widget>[
-          CommonAppBarItems()
-        ],
+        actions: <Widget>[CommonAppBarItems()],
       ),
       AppBar(
         title: Text("Pulse"),
-        actions: <Widget>[
-          CommonAppBarItems()
-        ],
+        actions: <Widget>[CommonAppBarItems()],
       ),
     ];
 
@@ -108,8 +97,12 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          setState(() {});
-          theme.setDarkTheme();
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              fullscreenDialog: true,
+              builder: (_) => NewPost(),
+            ),
+          );
         },
         child: Icon(Icons.add),
       ),
