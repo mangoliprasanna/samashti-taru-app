@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:samashti_app/helpers/theme_provider.dart';
 import 'package:samashti_app/widgets/home/appbar.dart';
 import 'package:samashti_app/widgets/home/home.dart';
-import 'package:samashti_app/widgets/post/new_post.dart';
+import 'package:samashti_app/widgets/post/post_new.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
@@ -100,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Navigator.of(context).push(
             MaterialPageRoute(
               fullscreenDialog: true,
-              builder: (_) => NewPost(),
+              builder: (_) => PostNew(),
             ),
           );
         },

@@ -31,6 +31,7 @@ dependencies:
   http_parser:
   path:
   mime:
+  video_player:
 
 dev_dependencies:
   flutter_test:
