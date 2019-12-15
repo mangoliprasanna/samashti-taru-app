@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:samashti_app/helpers/notification_handler.dart';
 import 'package:samashti_app/helpers/theme_provider.dart';
 import 'package:samashti_app/widgets/home/appbar.dart';
 import 'package:samashti_app/widgets/home/home.dart';
@@ -19,6 +20,20 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    NotificationHandler.currentFcmInstance().configure(
+      onLaunch: (Map<String, dynamic> notificationData){
+        print("onLaunch");
+        print(notificationData);
+      },
+      onMessage: (Map<String, dynamic> notificationData){
+        print("onMessage");
+        print(notificationData);
+      },
+      onResume: (Map<String, dynamic> notificationData){
+        print("onResume");
+        print(notificationData);
+      }
+    );
   }
 
   List<String> a = ["Profile", "Logout"];
@@ -34,19 +49,15 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: <Widget>[CommonAppBarItems()],
       ),
       AppBar(
-        title: Text("Samyoga"),
-        actions: <Widget>[CommonAppBarItems()],
-      ),
-      AppBar(
-        title: Text("Sankalpa"),
-        actions: <Widget>[CommonAppBarItems()],
-      ),
-      AppBar(
-        title: Text("Samanvaya"),
+        title: Text("Events"),
         actions: <Widget>[CommonAppBarItems()],
       ),
       AppBar(
         title: Text("Pulse"),
+        actions: <Widget>[CommonAppBarItems()],
+      ),
+      AppBar(
+        title: Text("Results"),
         actions: <Widget>[CommonAppBarItems()],
       ),
     ];
@@ -62,9 +73,6 @@ class _HomeScreenState extends State<HomeScreen> {
       Text(
         'Index 2: School',
       ),
-      Text(
-        'Index 2: School',
-      ),
     ];
 
     final List<BottomNavigationBarItem> navigationItemList = [
@@ -73,20 +81,16 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text('Home'),
       ),
       BottomNavigationBarItem(
-        icon: Icon(Icons.business),
-        title: Text('Samyoga'),
+        icon: Icon(Icons.event),
+        title: Text('Events'),
       ),
       BottomNavigationBarItem(
-        icon: Icon(Icons.school),
-        title: Text('Sankalpa'),
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.school),
-        title: Text('Samanvaya'),
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.school),
+        icon: Icon(Icons.directions_walk),
         title: Text('Pulse'),
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.content_paste),
+        title: Text('Results'),
       ),
     ];
 
@@ -117,21 +121,6 @@ class _HomeScreenState extends State<HomeScreen> {
             _selectedIndex = index;
           });
         },
-      ),
-    );
-  }
-
-  Padding _buildUserAvatar() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: InkWell(
-        onTap: () {},
-        child: CircleAvatar(
-          maxRadius: 20.0,
-          backgroundImage: NetworkImage(
-            "http://demo.samashti.co.in/profile/no-profile.png",
-          ),
-        ),
       ),
     );
   }

@@ -29,10 +29,7 @@ class HomeProfileWidget extends StatelessWidget {
             user.currentUser.userProfile,
           ),
         ),
-        subtitle: Text(
-          user.currentUser.userEmail,
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-        ),
+        subtitle: Text(user.currentUser.userEmail, overflow: TextOverflow.ellipsis,)
       ),
     );
   }

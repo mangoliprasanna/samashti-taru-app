@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -15,9 +16,13 @@ class PostNew extends StatefulWidget {
 
 class _PostNewState extends State<PostNew> {
   UserProvider user;
-  File _selectedMedia;
+
   PostMedia _postMedia;
+
   TextEditingController _postContentController = new TextEditingController();
+
+  Map<String, dynamic> postData;
+
   @override
   Widget build(BuildContext context) {
     user = Provider.of<UserProvider>(context);
@@ -30,7 +35,16 @@ class _PostNewState extends State<PostNew> {
               "Post",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            onPressed: () {},
+            onPressed: () {
+              postData = new Map();
+              if(_postContentController.text.isNotEmpty){
+                postData["name"] = "newPost";
+                postData["param"] = new Map<String, dynamic>();
+                postData["param"]["post_media"] = _postMedia?.media?.toJson();
+                postData["param"]["post_desc"] = _postContentController.text;
+                print(jsonEncode(postData));
+              }
+            },
           )
         ],
       ),

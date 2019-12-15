@@ -29,6 +29,7 @@ dependencies:
   shared_preferences:
   sqflite:
   http_parser:
+  firebase_messaging:
   path:
   mime:
   video_player:

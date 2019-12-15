@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:samashti_app/helpers/network_helper.dart';
+import 'package:samashti_app/helpers/notification_handler.dart';
 import 'package:samashti_app/helpers/user_provider.dart';
 import 'package:samashti_app/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -58,10 +61,17 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   performLogin() async {
+    String deviceToken = await NotificationHandler.getFcmDeviceToken();
     var loginResponse = await NetworkHelper.getInstance().validateUser({
       "user_email": _emailTxtController.text,
-      "user_password": _passwordTxtController.text
+      "user_password": _passwordTxtController.text,
+      "user_device": deviceToken
     });
+    print(jsonEncode({
+      "user_email": _emailTxtController.text,
+      "user_password": _passwordTxtController.text,
+      "user_device": deviceToken
+    }));
     if (loginResponse is String) {
       showSnackbar(loginResponse);
     }
