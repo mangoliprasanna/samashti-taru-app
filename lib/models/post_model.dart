@@ -2,6 +2,7 @@ class PostModel {
   int postId;
   int userId;
   String userName;
+  String userProfile;
   String postDesc;
   String postMedia;
   String postType;
@@ -17,6 +18,7 @@ class PostModel {
       this.postDesc,
       this.postMedia,
       this.postType,
+      this.userProfile,
       this.postLikes,
       this.postComments,
       this.postReported,
@@ -26,6 +28,7 @@ class PostModel {
     postId = json['post_id'];
     userId = json['user_id'];
     userName = json['user_name'];
+    userProfile = json['user_profile'];
     postDesc = json['post_desc'];
     postMedia = json['post_media'];
     postType = json['post_type'];
@@ -40,6 +43,7 @@ class PostModel {
     data['post_id'] = this.postId;
     data['user_id'] = this.userId;
     data['user_name'] = this.userName;
+    data["user_profile"] = this.userProfile;
     data['post_desc'] = this.postDesc;
     data['post_media'] = this.postMedia;
     data['post_type'] = this.postType;

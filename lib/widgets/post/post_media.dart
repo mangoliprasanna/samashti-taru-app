@@ -7,25 +7,23 @@ import 'package:video_player/video_player.dart';
 
 enum MediaType { picture, video }
 
-class PostMedia extends StatefulWidget {
+class NewPostMedia extends StatefulWidget {
   File mediaPath;
 
   MediaType mediaType;
 
   MediaModel media;
 
-  PostMedia({this.mediaPath, this.mediaType});
+  NewPostMedia({this.mediaPath, this.mediaType});
 
   @override
-  _PostMediaState createState() => _PostMediaState();
+  _NewPostMediaState createState() => _NewPostMediaState();
 }
 
-class _PostMediaState extends State<PostMedia> {
+class _NewPostMediaState extends State<NewPostMedia> {
   bool _isUploding = true;
 
   VideoPlayerController _videoPlayerController;
-
-  AnimationController _animationController;
 
   @override
   void initState() {
@@ -42,7 +40,6 @@ class _PostMediaState extends State<PostMedia> {
   @override
   void dispose() {
     _videoPlayerController?.dispose();
-    _animationController?.dispose();
     super.dispose();
   }
 

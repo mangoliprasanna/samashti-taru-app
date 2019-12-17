@@ -16,7 +16,7 @@ class PostNew extends StatefulWidget {
 class _PostNewState extends State<PostNew> {
   UserProvider user;
 
-  PostMedia _postMedia;
+  NewPostMedia _postMedia;
 
   TextEditingController _postContentController = new TextEditingController();
 
@@ -115,7 +115,7 @@ class _PostNewState extends State<PostNew> {
                 source: ImageSource.camera, imageQuality: 50);
             if (cameraImage != null) {
               setState(() {
-                _postMedia = PostMedia(
+                _postMedia = NewPostMedia(
                   mediaPath: cameraImage,
                   mediaType: MediaType.picture,
                 );
@@ -130,7 +130,7 @@ class _PostNewState extends State<PostNew> {
                 source: ImageSource.gallery, imageQuality: 50);
             if (galleryImage != null) {
               setState(() {
-                _postMedia = PostMedia(
+                _postMedia = NewPostMedia(
                   mediaPath: galleryImage,
                   mediaType: MediaType.picture,
                 );
@@ -145,7 +145,7 @@ class _PostNewState extends State<PostNew> {
                 await ImagePicker.pickVideo(source: ImageSource.camera);
             if (recordedVideo != null) {
               setState(() {
-                _postMedia = PostMedia(
+                _postMedia = NewPostMedia(
                   mediaPath: recordedVideo,
                   mediaType: MediaType.video,
                 );

@@ -9,6 +9,7 @@ class PostTable {
   static String colPostId = "post_id";
   static String colUserId = "user_id";
   static String colUserName = "user_name";
+  static String colUserProfile = "user_profile";
   static String colPostDesc = "post_desc";
   static String colPostMedia = "post_media";
   static String colPostType = "post_type";
@@ -26,10 +27,12 @@ class PostTable {
       " INTEGER NOT NULL," +
       colUserName +
       " TEXT NOT NULL," +
+      colUserProfile + 
+      "TEXT NOT NULL," +
       colPostMedia +
-      " TEXT NOT NULL," +
+      " TEXT," +
       colPostType +
-      " TEXT NOT NULL," +
+      " TEXT ," +
       colPostLikes +
       " INTEGER NOT NULL," +
       colPostComments +
