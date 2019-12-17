@@ -72,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
 
     final List<Widget> widgetList = <Widget>[
-      HomwWidget(),
+      HomeWidget(),
       Text(
         'Index 1: Business',
       ),
@@ -105,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: appBarList.elementAt(_selectedIndex),
-      body: SingleChildScrollView(
+      body: Container(
         child: widgetList.elementAt(_selectedIndex),
       ),
       floatingActionButton: FloatingActionButton(

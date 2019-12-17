@@ -28,6 +28,7 @@ class DBHelper {
     String path = join(await getDatabasesPath(), SamashtiDb.DATABASE_NAME);
     return openDatabase(path, version: SamashtiDb.DATABASE_VERSION,
         onCreate: (db, version) {
+          print(PostTable.createStatement);
           db.execute(UserTable.createStatement);
           db.execute(PostTable.createStatement);
       return db;

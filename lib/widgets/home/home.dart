@@ -1,27 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:samashti_app/helpers/user_provider.dart';
+import 'package:samashti_app/models/post_model.dart';
 import 'package:samashti_app/widgets/home/profilesection.dart';
+import 'package:samashti_app/widgets/post/post.dart';
+import 'package:samashti_app/widgets/post/post_provider.dart';
 
-class HomwWidget extends StatefulWidget {
-  HomwWidget({Key key}) : super(key: key);
+class HomeWidget extends StatefulWidget {
+  HomeWidget({Key key}) : super(key: key);
 
   @override
-  _HomwWidgetState createState() => _HomwWidgetState();
+  _HomeWidgetState createState() => _HomeWidgetState();
 }
 
-class _HomwWidgetState extends State<HomwWidget> {
-  @override
-  void initState() {
-    super.initState();
-  }
+class _HomeWidgetState extends State<HomeWidget> {
+  var post;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        WelcomeUser(),
-      ],
+    if (post == null) post = Provider.of<PostProvider>(context);
+    return FutureBuilder(
+      future: post.getAllPosts(),
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        if (snapshot.hasData) {
+          List<PostModel> allPosts = new List();
+          allPosts = snapshot.data;
+          return ListView.builder(
+            itemCount: allPosts.length + 1,
+            itemBuilder: (BuildContext context, int index) {
+              if (index == 0) return WelcomeUser();
+              return PostItem(postData: allPosts[index]);
+            },
+          );
+        }
+        if (snapshot.hasError) {
+          return Text("Oops Something went wrong");
+        }
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
   }
 }

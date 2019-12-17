@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:samashti_app/helpers/network_helper.dart';
 import 'package:samashti_app/models/post_model.dart';
 import 'package:samashti_app/widgets/post/post_media.dart';
 import 'package:video_player/video_player.dart';
 
 class PostVideoPlayer extends StatefulWidget {
-  String videUrl;
+  String videoUrl;
 
-  PostVideoPlayer({String videoUrl, Key key}) : super(key: key);
+  PostVideoPlayer({this.videoUrl, Key key}) : super(key: key);
 
   @override
   _PostVideoPlayerState createState() => _PostVideoPlayerState();
@@ -15,9 +16,27 @@ class PostVideoPlayer extends StatefulWidget {
 class _PostVideoPlayerState extends State<PostVideoPlayer> {
   VideoPlayerController _videoPlayerController;
 
+  double videoAsspectRatio;
+
+  bool isVideoPlaying = false;
+
   @override
   void initState() {
     super.initState();
+    String mediaPath = NetworkHelper.getInstance().serverPath + widget.videoUrl;
+    _videoPlayerController = VideoPlayerController.network(mediaPath);
+    _videoPlayerController = _videoPlayerController
+      ..initialize().then((_) {
+        setState(() {});
+      });
+    _videoPlayerController.setLooping(true);
+  }
+
+  @override
+  void dispose() {
+    _videoPlayerController?.dispose();
+    _videoPlayerController?.setLooping(false);
+    super.dispose();
   }
 
   _playPauseVideo() {
@@ -31,17 +50,23 @@ class _PostVideoPlayerState extends State<PostVideoPlayer> {
   _loadVideoWidget() {
     return Stack(
       children: <Widget>[
-        _videoPlayerController.value.initialized
-            ? AspectRatio(
-                aspectRatio: _videoPlayerController.value.aspectRatio,
-                child: VideoPlayer(_videoPlayerController),
-              )
-            : CircularProgressIndicator(),
+        AspectRatio(
+          aspectRatio: _videoPlayerController.value.aspectRatio / 2,
+          child: _videoPlayerController.value.initialized
+              ? VideoPlayer(_videoPlayerController)
+              : Center(
+                  child: CircularProgressIndicator(),
+                ),
+        ),
         IconButton(
-            onPressed: _playPauseVideo,
-            icon: Icon(_videoPlayerController.value.isPlaying
+          onPressed: _playPauseVideo,
+          icon: Icon(
+            _videoPlayerController.value.isPlaying
                 ? Icons.pause
-                : Icons.play_arrow))
+                : Icons.play_arrow,
+            color: Colors.white,
+          ),
+        )
       ],
     );
   }
@@ -49,9 +74,7 @@ class _PostVideoPlayerState extends State<PostVideoPlayer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: _videoPlayerController.value.initialized
-          ? _loadVideoWidget()
-          : CircularProgressIndicator(),
+      child: _loadVideoWidget(),
     );
   }
 }
@@ -63,13 +86,10 @@ class PostMedia extends StatelessWidget {
 
   String mediaUrl;
 
-  PostMedia({String mediaUrl, String mediaType, Key key}) : super(key: key);
+  PostMedia({this.mediaUrl, this.mediaType, Key key}) : super(key: key);
 
   _loadPictureWidget() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(16.0),
-      child: Image.network(mediaUrl),
-    );
+    return Image.network(NetworkHelper.getInstance().serverPath + "/" + mediaUrl);
   }
 
   @override
@@ -89,17 +109,15 @@ class PostMedia extends StatelessWidget {
 }
 
 class PostItem extends StatefulWidget {
-
   PostModel postData;
 
-  PostItem({PostModel postData, Key key}) : super(key: key);
+  PostItem({this.postData, Key key}) : super(key: key);
 
   @override
   _PostItemState createState() => _PostItemState();
 }
 
 class _PostItemState extends State<PostItem> {
-
   bool _descTextShowFlag = false;
 
   @override
@@ -137,11 +155,16 @@ class _PostItemState extends State<PostItem> {
             ],
           ),
         ),
-        Container(
-          padding: EdgeInsets.only(top: 8),
-          width: MediaQuery.of(context).size.width,
-          child: PostMedia(mediaType: widget.postData.postType, mediaUrl: widget.postData.postMedia,),
-        ),
+        (widget.postData.postMedia != null)
+            ? Container(
+                padding: EdgeInsets.only(top: 8),
+                width: MediaQuery.of(context).size.width,
+                child: PostMedia(
+                  mediaType: widget.postData.postType,
+                  mediaUrl: widget.postData.postMedia,
+                ),
+              )
+            : SizedBox(),
         Container(
           margin: EdgeInsets.all(16.0),
           child: Column(

@@ -28,8 +28,10 @@ class PostTable {
       colUserName +
       " TEXT NOT NULL," +
       colUserProfile + 
-      "TEXT NOT NULL," +
+      " TEXT NOT NULL," +
       colPostMedia +
+      " TEXT," +
+      colPostDesc +
       " TEXT," +
       colPostType +
       " TEXT ," +

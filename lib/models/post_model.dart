@@ -43,7 +43,7 @@ class PostModel {
     data['post_id'] = this.postId;
     data['user_id'] = this.userId;
     data['user_name'] = this.userName;
-    data["user_profile"] = this.userProfile;
+    data['user_profile'] = this.userProfile;
     data['post_desc'] = this.postDesc;
     data['post_media'] = this.postMedia;
     data['post_type'] = this.postType;

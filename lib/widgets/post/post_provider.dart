@@ -18,8 +18,8 @@ class PostProvider extends ChangeNotifier {
     List<PostModel> allPosts = new List();
     Database db = await _dbHelper.database;
     var allValidPost = await db.query(PostTable.tableName,
-        where: "${PostTable.colPostReported}=?", whereArgs: [0]);
-    allValidPost.map((post) => allPosts.add(PostModel.fromJson(post)));
+        where: "${PostTable.colPostReported}=?", whereArgs: [0], orderBy: "${PostTable.colPostId} DESC");
+    allValidPost.forEach((post) => allPosts.add(PostModel.fromJson(post)));
     return allPosts;
   }
 
@@ -36,7 +36,8 @@ class PostProvider extends ChangeNotifier {
   Future<String> insertNewPost(var postData) async {
     Database db = await _dbHelper.database;
     String serverResponse = await NetworkHelper.getInstance()
-        .performNetworkRequest(postData, "/api/post");
+        .performPostRequest(postData, "/post/");
+
     if (serverResponse != null) {
       var serverJsonResponse = json.decode(serverResponse);
       if (serverJsonResponse != null && serverJsonResponse["error"] == null) {
@@ -45,7 +46,7 @@ class PostProvider extends ChangeNotifier {
         db.insert(PostTable.tableName, newPost.toJson());
         return "New Post updated";
       } else {
-        return serverJsonResponse["error"];
+        return null;
       }
     }
   }

@@ -67,17 +67,13 @@ class _LoginScreenState extends State<LoginScreen> {
       "user_password": _passwordTxtController.text,
       "user_device": deviceToken
     });
-    print(jsonEncode({
-      "user_email": _emailTxtController.text,
-      "user_password": _passwordTxtController.text,
-      "user_device": deviceToken
-    }));
     if (loginResponse is String) {
       showSnackbar(loginResponse);
     }
     if (loginResponse is UserModel) {
       SharedPreferences pref = await SharedPreferences.getInstance();
       await pref.setString("Auth", loginResponse.userToken);
+      NetworkHelper.getInstance().setToken(loginResponse.userToken);
       await Provider.of<UserProvider>(context).setUser(loginResponse);
       Navigator.of(context).pop();
       Navigator.of(context).pushReplacementNamed("/home");

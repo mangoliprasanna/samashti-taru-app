@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:samashti_app/helpers/user_provider.dart';
 import 'package:samashti_app/widgets/post/post_media.dart';
+import 'package:samashti_app/widgets/post/post_provider.dart';
 
 class PostNew extends StatefulWidget {
   PostNew({Key key}) : super(key: key);
@@ -22,26 +23,45 @@ class _PostNewState extends State<PostNew> {
 
   Map<String, dynamic> postData;
 
+  PostProvider post;
+
+  bool _isPosting = false;
+
   @override
   Widget build(BuildContext context) {
+    post = Provider.of<PostProvider>(context);
     user = Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("New Post"),
         actions: <Widget>[
           FlatButton(
-            child: Text(
-              "Post",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            onPressed: () {
+            child: (_isPosting)
+                ? CircularProgressIndicator(
+                    backgroundColor: Colors.black,
+                    strokeWidth: 2,
+                  )
+                : Text(
+                    "Post",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+            onPressed: () async {
+              setState(() {
+                _isPosting = true;
+              });
               postData = new Map();
-              if(_postContentController.text.isNotEmpty){
+              if (_postContentController.text.isNotEmpty) {
                 postData["name"] = "newPost";
                 postData["param"] = new Map<String, dynamic>();
                 postData["param"]["post_media"] = _postMedia?.media?.toJson();
                 postData["param"]["post_desc"] = _postContentController.text;
-                print(jsonEncode(postData));
+                String response = await post?.insertNewPost(postData);
+                print("Post Response $response");
+                if(response == null){
+                  //Scaffold.of(context).showSnackBar(SnackBar(content: Text("Oops, Something went wrong please try again."),));
+                } else {
+                  Navigator.pop(context);
+                }
               }
             },
           )
