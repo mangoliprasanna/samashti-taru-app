@@ -9,8 +9,7 @@ class PostItem extends StatefulWidget {
 
 class _PostItemState extends State<PostItem> {
   bool descTextShowFlag = false;
-  String postDesc =
-      "sd";
+  String postDesc ="sd";
   @override
   Widget build(BuildContext context) {
     return Column(

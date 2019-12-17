@@ -3,6 +3,44 @@ class SamashtiDb {
   static String DATABASE_NAME = 'samashtiDB';
 }
 
+
+class PostTable {
+  static String tableName = "tbl_post";
+  static String colPostId = "post_id";
+  static String colUserId = "user_id";
+  static String colUserName = "user_name";
+  static String colPostDesc = "post_desc";
+  static String colPostMedia = "post_media";
+  static String colPostType = "post_type";
+  static String colPostLikes = "post_likes";
+  static String colPostComments = "post_comments";
+  static String colPostReported = "post_reported";
+  static String colPostDate = "post_date";
+
+  static String createStatement = "CREATE TABLE " +
+      tableName +
+      "(" +
+      colPostId +
+      " INTEGER PRIMARY KEY," +
+      colUserId +
+      " INTEGER NOT NULL," +
+      colUserName +
+      " TEXT NOT NULL," +
+      colPostMedia +
+      " TEXT NOT NULL," +
+      colPostType +
+      " TEXT NOT NULL," +
+      colPostLikes +
+      " INTEGER NOT NULL," +
+      colPostComments +
+      " INTEGER NOT NULL," +
+      colPostReported +
+      " INTEGER NOT NULL," +
+      colPostDate +
+      " TEXT NOT NULL"
+      ")";
+}
+
 class UserTable {
   static String tableName = "tbl_users";
   static String colID = "id";

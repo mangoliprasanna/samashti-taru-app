@@ -5,6 +5,7 @@ import 'package:samashti_app/helpers/theme_provider.dart';
 import 'package:samashti_app/widgets/home/appbar.dart';
 import 'package:samashti_app/widgets/home/home.dart';
 import 'package:samashti_app/widgets/post/post_new.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
@@ -34,6 +35,14 @@ class _HomeScreenState extends State<HomeScreen> {
         print(notificationData);
       }
     );
+    initTheme();
+  }
+
+
+  initTheme() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    if(pref.getInt("THEME") == ThemeProvider.DARK_THEME)
+      theme?.setDarkTheme();
   }
 
   List<String> a = ["Profile", "Logout"];

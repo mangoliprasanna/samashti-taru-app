@@ -29,6 +29,7 @@ class DBHelper {
     return openDatabase(path, version: SamashtiDb.DATABASE_VERSION,
         onCreate: (db, version) {
           db.execute(UserTable.createStatement);
+          db.execute(PostTable.createStatement);
       return db;
     });
   }
