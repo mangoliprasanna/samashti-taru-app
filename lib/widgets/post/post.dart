@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 
-class PostItem extends StatelessWidget {
-  const PostItem({
-    Key key,
-  }) : super(key: key);
+class PostItem extends StatefulWidget {
+  PostItem({Key key}) : super(key: key);
 
+  @override
+  _PostItemState createState() => _PostItemState();
+}
+
+class _PostItemState extends State<PostItem> {
+  bool descTextShowFlag = false;
+  String postDesc =
+      "sd";
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -49,6 +55,40 @@ class PostItem extends StatelessWidget {
               "https://via.placeholder.com/300",
             ),
             placeholder: AssetImage("assets/brand.png"),
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                postDesc,
+                maxLines: descTextShowFlag ? 8 : 2,
+                textAlign: TextAlign.start,
+              ),
+              (postDesc.length > 10)
+                  ? GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          descTextShowFlag = !descTextShowFlag;
+                        });
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          descTextShowFlag
+                              ? Text(
+                                  "Show Less",
+                                  style: TextStyle(color: Colors.grey),
+                                )
+                              : Text("Show More",
+                                  style: TextStyle(color: Colors.grey))
+                        ],
+                      ),
+                    )
+                  : SizedBox(),
+            ],
           ),
         ),
         Padding(
