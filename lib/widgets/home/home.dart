@@ -26,10 +26,12 @@ class _HomeWidgetState extends State<HomeWidget> {
           List<PostModel> allPosts = new List();
           allPosts = snapshot.data;
           return ListView.builder(
-            itemCount: allPosts.length + 1,
+            itemCount: allPosts.length,
             itemBuilder: (BuildContext context, int index) {
-              if (index == 0) return WelcomeUser();
-              return PostItem(postData: allPosts[index]);
+              if (index == 0) 
+                return WelcomeUser();
+              return PostItem(postData: allPosts[index - 1]);
+              
             },
           );
         }

@@ -51,7 +51,7 @@ class _PostVideoPlayerState extends State<PostVideoPlayer> {
     return Stack(
       children: <Widget>[
         AspectRatio(
-          aspectRatio: _videoPlayerController.value.aspectRatio / 2,
+          aspectRatio: 4 / 3,
           child: _videoPlayerController.value.initialized
               ? VideoPlayer(_videoPlayerController)
               : Center(
@@ -89,7 +89,8 @@ class PostMedia extends StatelessWidget {
   PostMedia({this.mediaUrl, this.mediaType, Key key}) : super(key: key);
 
   _loadPictureWidget() {
-    return Image.network(NetworkHelper.getInstance().serverPath + "/" + mediaUrl);
+    return Image.network(
+        NetworkHelper.getInstance().serverPath + "/" + mediaUrl);
   }
 
   @override
@@ -205,12 +206,9 @@ class _PostItemState extends State<PostItem> {
             children: <Widget>[
               IconButton(
                 onPressed: () {},
-                icon: Icon(Icons.thumb_up),
+                icon: Icon(Icons.thumb_up, color: Theme.of(context).accentColor,),
               ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.comment),
-              ),
+              Text(widget.postData.postLikes.toString())
             ],
           ),
         ),
