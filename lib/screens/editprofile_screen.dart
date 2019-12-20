@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:samashti_app/helpers/theme_provider.dart';
-import 'package:samashti_app/helpers/user_provider.dart';
 
 class EditProfileScreen extends StatefulWidget {
   EditProfileScreen({Key key}) : super(key: key);
@@ -24,13 +21,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Provider.of<ThemeProvider>(context);
-    final user = Provider.of<UserProvider>(context);
     final emailEditText = TextFormField(
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.next,
         autocorrect: false,
-        initialValue: user.currentUser.userEmail,
         autofocus: false,
         enabled: false,
         decoration: _getDecoration("Email Address", Icons.email));
@@ -42,13 +36,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final nameEditText = TextFormField(
       keyboardType: TextInputType.text,
       autofocus: false,
-      initialValue: user.currentUser.userName,
       decoration: _getDecoration("Full Name", Icons.account_circle),
     );
 
     final mobileEditText = TextFormField(
       keyboardType: TextInputType.phone,
-      initialValue: user.currentUser.userContact,
       autofocus: false,
       decoration: _getDecoration("Mobile Number", Icons.phone),
     );
@@ -83,7 +75,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   textColor: Theme.of(context).accentColor,
                   highlightedBorderColor: Theme.of(context).accentColor,
                   onPressed: () {
-                    theme.setDarkTheme();
+                    // Dark RTheme
                   },
                   borderSide: BorderSide(
                     color: Theme.of(context).accentColor,

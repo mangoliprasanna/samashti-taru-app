@@ -2,8 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
-import 'package:samashti_app/helpers/user_provider.dart';
 import 'package:samashti_app/widgets/post/post_media.dart';
 
 class PostNew extends StatefulWidget {
@@ -14,7 +12,7 @@ class PostNew extends StatefulWidget {
 }
 
 class _PostNewState extends State<PostNew> {
-  UserProvider user;
+
 
   PostMedia _postMedia;
 
@@ -24,7 +22,6 @@ class _PostNewState extends State<PostNew> {
 
   @override
   Widget build(BuildContext context) {
-    user = Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("New Post"),
@@ -57,7 +54,7 @@ class _PostNewState extends State<PostNew> {
               Expanded(
                 flex: 1,
                 child: Image.network(
-                  user.currentUser.userProfile,
+                  "https://via.placeholder.com/150",
                   width: 50,
                 ),
               ),
@@ -79,7 +76,7 @@ class _PostNewState extends State<PostNew> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              user.currentUser.userName,
+              "Prasanna Mangoli",
               style: Theme.of(context).textTheme.caption,
             ),
             Padding(

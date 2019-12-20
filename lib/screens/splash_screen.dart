@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:samashti_app/helpers/user_provider.dart';
 
 class SplashScreen extends StatefulWidget {
   SplashScreen({Key key}) : super(key: key);
@@ -12,22 +10,11 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  bool _isLoading = true;
+  bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 2), () async {
-      bool isUserLoaded = await Provider.of<UserProvider>(context).loadUser();
-      print(isUserLoaded);
-      if(isUserLoaded)
-        Navigator.of(context).pushReplacementNamed("/home");
-      else {
-        setState(() {
-          _isLoading = false;
-        });
-      }
-    });
   }
 
   @override

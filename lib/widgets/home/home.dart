@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:samashti_app/helpers/user_provider.dart';
+import 'package:samashti_app/helpers/network_helper.dart';
+import 'package:samashti_app/models/user_model.dart';
 import 'package:samashti_app/widgets/home/profilesection.dart';
 
 class HomwWidget extends StatefulWidget {
@@ -27,15 +27,16 @@ class _HomwWidgetState extends State<HomwWidget> {
 }
 
 class WelcomeUser extends StatelessWidget {
-  const WelcomeUser({Key key}) : super(key: key);
-
+  WelcomeUser({Key key}) : super(key: key);
+  UserModel currentUser = NetworkHelper.getInstance().getUser();
   @override
   Widget build(BuildContext context) {
-    var user = Provider.of<UserProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        HomeProfileWidget(user: user),
+        HomeProfileWidget(
+          currentUser: currentUser,
+        ),
         Container(
           color: Theme.of(context).accentColor,
           width: MediaQuery.of(context).size.width,

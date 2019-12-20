@@ -23,10 +23,10 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
-  provider:
   image_picker:
   http:
   shared_preferences:
+  dynamic_theme: ^1.0.0
   sqflite:
   http_parser:
   firebase_messaging:
@@ -56,6 +56,7 @@ flutter:
     - assets/reg_bg.png
     - assets/resetpass_bg.png
     - assets/brand.png
+    - assets/welcome_loading.mp4
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

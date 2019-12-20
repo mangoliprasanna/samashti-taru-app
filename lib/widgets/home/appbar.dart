@@ -1,53 +1,38 @@
+import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:samashti_app/helpers/theme_provider.dart';
-import 'package:samashti_app/helpers/user_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CommonAppBarItems extends StatelessWidget {
   List<AppBarItem> itemList = new List();
-  UserProvider currentUser;
+  var currentUser;
 
   _logoutUser(BuildContext context) async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    if(await pref.clear()){
-      currentUser.deleteUser();
-    }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
     Navigator.of(context).pushReplacementNamed("/");
   }
-  
+
   @override
   Widget build(BuildContext context) {
-    var theme = Provider.of<ThemeProvider>(context);
-    currentUser = Provider.of<UserProvider>(context);
     itemList.clear();
-    itemList.add(AppBarItem("Profile", 0));
-    itemList.add(AppBarItem(
-        theme.isDarkTheme ? "Light Mode" : "Dark Mode", theme.isDarkTheme ? 1 : 2));
+    itemList.add(AppBarItem(true ? "Light Mode" : "Dark Mode", true ? 1 : 2));
     itemList.add(AppBarItem("Logout", 3));
     return Row(
       children: <Widget>[
         IconButton(
           icon: Icon(Icons.notifications),
-          onPressed: () {
-            
-          },
+          onPressed: () {},
         ),
         PopupMenuButton<AppBarItem>(
-          onSelected: (d){
-
-            if(d.functionId == 0)
-              Navigator.of(context).pushNamed("/profile");
-
-            if(d.functionId == 1)
-              theme.setLightTheme();
-
-            if(d.functionId == 2)
-              theme.setDarkTheme();
-
-            if(d.functionId == 3)
-              _logoutUser(context);
-
+          onSelected: (d) {
+            if (d.functionId == 1) {
+              DynamicTheme.of(context).setBrightness(
+                Theme.of(context).brightness == Brightness.dark
+                    ? Brightness.light
+                    : Brightness.dark,
+              );
+            }
+            if (d.functionId == 3) _logoutUser(context);
           },
           itemBuilder: (BuildContext context) {
             return itemList.map((f) {

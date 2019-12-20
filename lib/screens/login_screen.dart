@@ -1,10 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/material.dart' as prefix0;
 import 'package:samashti_app/helpers/network_helper.dart';
 import 'package:samashti_app/helpers/notification_handler.dart';
-import 'package:samashti_app/helpers/user_provider.dart';
 import 'package:samashti_app/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -61,26 +60,31 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   performLogin() async {
-    String deviceToken = await NotificationHandler.getFcmDeviceToken();
-    var loginResponse = await NetworkHelper.getInstance().validateUser({
-      "user_email": _emailTxtController.text,
-      "user_password": _passwordTxtController.text,
-      "user_device": deviceToken
-    });
-    print(jsonEncode({
-      "user_email": _emailTxtController.text,
-      "user_password": _passwordTxtController.text,
-      "user_device": deviceToken
-    }));
-    if (loginResponse is String) {
-      showSnackbar(loginResponse);
-    }
-    if (loginResponse is UserModel) {
-      SharedPreferences pref = await SharedPreferences.getInstance();
-      await pref.setString("Auth", loginResponse.userToken);
-      await Provider.of<UserProvider>(context).setUser(loginResponse);
-      Navigator.of(context).pop();
-      Navigator.of(context).pushReplacementNamed("/home");
+    var prepareData = {
+      "name": "validateUser",
+      "param": {
+        "user_email": _emailTxtController.text,
+        "user_password": _passwordTxtController.text,
+        "user_device": await NotificationHandler.getFcmDeviceToken()
+      }
+    };
+    String serverResponse = await NetworkHelper.getInstance()
+        .performPostRequest(prepareData, "/users/");
+        print(serverResponse);
+    if (serverResponse != null) {
+      var serverResponseJson = jsonDecode(serverResponse);
+      
+      if (serverResponseJson["response"] != null &&
+          serverResponseJson["response"]["status"] == 200) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        NetworkHelper.getInstance().setUser(
+            UserModel.fromJson(serverResponseJson["response"]["result"]));
+        prefs.setInt("user_id", serverResponseJson["response"]["result"]["id"]);
+        Navigator.pop(context);
+        Navigator.pushReplacementNamed(context, "/home");
+      } else {
+        showSnackbar("Invalid username or password, please try again.");
+      }
     }
   }
 
@@ -153,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
               (!canLoginClick) ? LinearProgressIndicator() : SizedBox(),
               FlatButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed("/resetpassword");
+                  Navigator.of(context).pushReplacementNamed("/resetpassword");
                 },
                 child: Text("Lost Password?"),
               )
@@ -206,9 +210,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void showSnackbar(String message) {
     canLoginClick = true;
-    setState(() {
-      
-    });
+    setState(() {});
     final snackBar = SnackBar(content: Text(message));
     _globalKey.currentState.showSnackBar(snackBar);
   }

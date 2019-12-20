@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:samashti_app/helpers/user_provider.dart';
+import 'package:samashti_app/models/user_model.dart';
 
 class HomeProfileWidget extends StatelessWidget {
-  const HomeProfileWidget({
+  UserModel currentUser;
+  HomeProfileWidget({
+    @required this.currentUser,
     Key key,
-    @required this.user,
   }) : super(key: key);
-
-  final UserProvider user;
 
   @override
   Widget build(BuildContext context) {
@@ -16,21 +15,26 @@ class HomeProfileWidget extends StatelessWidget {
       color: Theme.of(context).accentColor,
       width: MediaQuery.of(context).size.width,
       child: ListTile(
-        onTap: () {
-          Navigator.of(context).pushNamed("/profile");
-        },
-        title: Text(
-          user.currentUser.userName,
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-        ),
-        leading: Hero(
-          tag: "profile-image",
-          child: Image.network(
-            user.currentUser.userProfile,
+          onTap: () {
+            Navigator.of(context).pushNamed("/profile", arguments: currentUser);
+          },
+          title: Text(
+            currentUser.userName,
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
           ),
-        ),
-        subtitle: Text(user.currentUser.userEmail, overflow: TextOverflow.ellipsis,)
-      ),
+          leading: Hero(
+            tag: "profile-image",
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16.0),
+              ),
+              child: Image.network(currentUser.userProfile),
+            ),
+          ),
+          subtitle: Text(
+            currentUser.userEmail,
+            overflow: TextOverflow.ellipsis,
+          )),
     );
   }
 }

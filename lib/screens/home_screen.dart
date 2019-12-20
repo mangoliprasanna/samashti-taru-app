@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:samashti_app/helpers/notification_handler.dart';
-import 'package:samashti_app/helpers/theme_provider.dart';
 import 'package:samashti_app/widgets/home/appbar.dart';
 import 'package:samashti_app/widgets/home/home.dart';
 import 'package:samashti_app/widgets/post/post_new.dart';
@@ -14,7 +12,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  static ThemeProvider theme;
   int _selectedIndex = 0;
 
   @override
@@ -40,8 +37,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    theme = Provider.of<ThemeProvider>(context);
-
     List<AppBar> appBarList = [
       AppBar(
         elevation: 0,

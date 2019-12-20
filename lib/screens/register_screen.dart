@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:samashti_app/helpers/theme_provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   RegisterScreen({Key key}) : super(key: key);
@@ -24,7 +22,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Provider.of<ThemeProvider>(context);
     final emailEditText = TextFormField(
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.next,
@@ -99,7 +96,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               AnimatedSwitcher(
                 duration: Duration(seconds: 2),
-                child: (isBtnVisible) ? _buildSubmitButton(context, theme) : LinearProgressIndicator(),
+                child: (isBtnVisible) ? _buildSubmitButton(context) : LinearProgressIndicator(),
               ),
             ],
           ),
@@ -108,7 +105,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Container _buildSubmitButton(BuildContext context, ThemeProvider theme) {
+  Container _buildSubmitButton(BuildContext context) {
     return Container(
               padding: EdgeInsets.all(16.0),
               width: MediaQuery.of(context).size.width - 50,
@@ -117,7 +114,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 textColor: Theme.of(context).accentColor,
                 highlightedBorderColor: Theme.of(context).accentColor,
                 onPressed: () {
-                  theme.setDarkTheme();
+                  
                 },
                 borderSide: BorderSide(
                   color: Theme.of(context).accentColor,
