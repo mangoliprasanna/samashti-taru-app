@@ -1,16 +1,126 @@
 import 'package:flutter/material.dart';
+import 'package:samashti_app/helpers/network_helper.dart';
+import 'package:samashti_app/widgets/post/post_media.dart';
+import 'package:video_player/video_player.dart';
 
+class MediaVideoPlayer extends StatefulWidget {
+  String videoUrl;
+
+  MediaVideoPlayer({this.videoUrl, Key key}) : super(key: key);
+
+  @override
+  _MediaVideoPlayerState createState() => _MediaVideoPlayerState();
+}
+
+class _MediaVideoPlayerState extends State<MediaVideoPlayer> {
+  VideoPlayerController _videoPlayerController;
+
+  double videoAsspectRatio;
+
+  bool isVideoPlaying = false;
+
+  @override
+  void initState() {
+    super.initState();
+    String mediaPath = NetworkHelper.getInstance().serverPath + widget.videoUrl;
+    _videoPlayerController = VideoPlayerController.network(mediaPath);
+    _videoPlayerController = _videoPlayerController
+      ..initialize().then((_) {
+        setState(() {});
+      });
+    _videoPlayerController.setLooping(true);
+  }
+
+  @override
+  void dispose() {
+    _videoPlayerController?.dispose();
+    _videoPlayerController?.setLooping(false);
+    super.dispose();
+  }
+
+  _playPauseVideo() {
+    setState(() {
+      _videoPlayerController.value.isPlaying
+          ? _videoPlayerController.pause()
+          : _videoPlayerController.play();
+    });
+  }
+
+  _loadVideoWidget() {
+    return Stack(
+      children: <Widget>[
+        AspectRatio(
+          aspectRatio: 4 / 3,
+          child: _videoPlayerController.value.initialized
+              ? VideoPlayer(_videoPlayerController)
+              : Center(
+                  child: CircularProgressIndicator(),
+                ),
+        ),
+        IconButton(
+          onPressed: _playPauseVideo,
+          icon: Icon(
+            _videoPlayerController.value.isPlaying
+                ? Icons.pause
+                : Icons.play_arrow,
+            color: Colors.white,
+          ),
+        )
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: _loadVideoWidget(),
+    );
+  }
+}
+
+class MediaController extends StatelessWidget {
+  VideoPlayerController _videoPlayerController;
+
+  String mediaType;
+
+  String mediaUrl;
+
+  MediaController({this.mediaUrl, this.mediaType, Key key}) : super(key: key);
+
+  _loadPictureWidget() {
+    return Image.network(
+        NetworkHelper.getInstance().serverPath + "/" + mediaUrl);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return getMediaType() == MediaType.picture
+        ? _loadPictureWidget()
+        : MediaVideoPlayer(
+            videoUrl: mediaUrl,
+          );
+  }
+
+  MediaType getMediaType() {
+    return this.mediaType.contains("video")
+        ? MediaType.video
+        : MediaType.picture;
+  }
+}
+
+/*
 class PostItem extends StatefulWidget {
-  PostItem({Key key}) : super(key: key);
+  PostModel postData;
+
+  PostItem({this.postData, Key key}) : super(key: key);
 
   @override
   _PostItemState createState() => _PostItemState();
 }
 
 class _PostItemState extends State<PostItem> {
-  bool descTextShowFlag = false;
-  String postDesc =
-      "sd";
+  bool _descTextShowFlag = false;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -22,7 +132,7 @@ class _PostItemState extends State<PostItem> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Image.network(
-                "http://demo.samashti.co.in/profile/no-profile.png",
+                widget.postData.userProfile,
                 height: 40.0,
               ),
               Container(
@@ -33,11 +143,11 @@ class _PostItemState extends State<PostItem> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      "Prasanna Mangoli",
+                      widget.postData.userName,
                       style: TextStyle(fontSize: 15.0),
                     ),
                     Text(
-                      "Nav 30 at 10:18 AM",
+                      widget.postData.postDate,
                       style: Theme.of(context).textTheme.caption,
                     )
                   ],
@@ -46,38 +156,37 @@ class _PostItemState extends State<PostItem> {
             ],
           ),
         ),
-        Container(
-          padding: EdgeInsets.only(top: 8),
-          width: MediaQuery.of(context).size.width,
-          child: FadeInImage(
-            fit: BoxFit.cover,
-            image: NetworkImage(
-              "https://via.placeholder.com/300",
-            ),
-            placeholder: AssetImage("assets/brand.png"),
-          ),
-        ),
+        (widget.postData.postMedia != null)
+            ? Container(
+                padding: EdgeInsets.only(top: 8),
+                width: MediaQuery.of(context).size.width,
+                child: MediaController(
+                  mediaType: widget.postData.postType,
+                  mediaUrl: widget.postData.postMedia,
+                ),
+              )
+            : SizedBox(),
         Container(
           margin: EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                postDesc,
-                maxLines: descTextShowFlag ? 8 : 2,
+                widget.postData.postDesc,
+                maxLines: _descTextShowFlag ? 8 : 2,
                 textAlign: TextAlign.start,
               ),
-              (postDesc.length > 10)
+              (widget.postData.postDesc.length > 10)
                   ? GestureDetector(
                       onTap: () {
                         setState(() {
-                          descTextShowFlag = !descTextShowFlag;
+                          _descTextShowFlag = !_descTextShowFlag;
                         });
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
-                          descTextShowFlag
+                          _descTextShowFlag
                               ? Text(
                                   "Show Less",
                                   style: TextStyle(color: Colors.grey),
@@ -97,12 +206,9 @@ class _PostItemState extends State<PostItem> {
             children: <Widget>[
               IconButton(
                 onPressed: () {},
-                icon: Icon(Icons.thumb_up),
+                icon: Icon(Icons.thumb_up, color: Theme.of(context).accentColor,),
               ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.comment),
-              ),
+              Text(widget.postData.postLikes.toString())
             ],
           ),
         ),
@@ -110,3 +216,4 @@ class _PostItemState extends State<PostItem> {
     );
   }
 }
+*/
