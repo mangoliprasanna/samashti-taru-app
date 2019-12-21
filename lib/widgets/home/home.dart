@@ -3,14 +3,14 @@ import 'package:samashti_app/helpers/network_helper.dart';
 import 'package:samashti_app/models/user_model.dart';
 import 'package:samashti_app/widgets/home/profilesection.dart';
 
-class HomwWidget extends StatefulWidget {
-  HomwWidget({Key key}) : super(key: key);
+class HomeWidget extends StatefulWidget {
+  HomeWidget({Key key}) : super(key: key);
 
   @override
-  _HomwWidgetState createState() => _HomwWidgetState();
+  _HomeWidgetState createState() => _HomeWidgetState();
 }
 
-class _HomwWidgetState extends State<HomwWidget> {
+class _HomeWidgetState extends State<HomeWidget> {
   @override
   void initState() {
     super.initState();

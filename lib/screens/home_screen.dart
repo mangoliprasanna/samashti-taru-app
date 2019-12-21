@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:samashti_app/helpers/notification_handler.dart';
+import 'package:samashti_app/widgets/event/event.dart';
 import 'package:samashti_app/widgets/home/appbar.dart';
 import 'package:samashti_app/widgets/home/home.dart';
 import 'package:samashti_app/widgets/post/post_new.dart';
@@ -58,10 +59,8 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
 
     final List<Widget> widgetList = <Widget>[
-      HomwWidget(),
-      Text(
-        'Index 1: Business',
-      ),
+      HomeWidget(),
+      EventWidget(),
       Text(
         'Index 2: School',
       ),
@@ -91,9 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: appBarList.elementAt(_selectedIndex),
-      body: SingleChildScrollView(
-        child: widgetList.elementAt(_selectedIndex),
-      ),
+      body: widgetList.elementAt(_selectedIndex),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(

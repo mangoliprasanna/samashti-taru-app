@@ -15,26 +15,22 @@ class HomeProfileWidget extends StatelessWidget {
       color: Theme.of(context).accentColor,
       width: MediaQuery.of(context).size.width,
       child: ListTile(
-          onTap: () {
-            Navigator.of(context).pushNamed("/profile", arguments: currentUser);
-          },
-          title: Text(
-            currentUser.userName,
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-          ),
-          leading: Hero(
-            tag: "profile-image",
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16.0),
-              ),
-              child: Image.network(currentUser.userProfile),
-            ),
-          ),
-          subtitle: Text(
-            currentUser.userEmail,
-            overflow: TextOverflow.ellipsis,
-          )),
+        onTap: () {
+          Navigator.of(context).pushNamed("/profile", arguments: currentUser);
+        },
+        title: Text(
+          currentUser.userName,
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+        ),
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(16.0),
+          child: Image.network(currentUser.userProfile),
+        ),
+        subtitle: Text(
+          currentUser.userEmail,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
     );
   }
 }

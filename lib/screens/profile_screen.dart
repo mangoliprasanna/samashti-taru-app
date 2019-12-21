@@ -10,6 +10,30 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  _mediaSelectionDialog() {
+    showDialog(
+      context: context,
+      child: AlertDialog(
+        title: Text("Make a choice!"),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            ListTile(
+              onTap: () {},
+              leading: Icon(Icons.camera_alt),
+              title: Text("Camera"),
+            ),
+            ListTile(
+              onTap: () {},
+              leading: Icon(Icons.photo_library),
+              title: Text("Gallery"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,24 +72,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   Positioned(
                     bottom: 5,
-                    child: Hero(
-                      tag: "profile-image",
-                      child: Container(
-                        height: 150,
-                        width: 150,
-                        padding: EdgeInsets.only(left: 12.0),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: new DecorationImage(
-                            fit: BoxFit.fill,
-                            image: new NetworkImage(
-                              "https://via.placeholder.com/150",
-                            ),
-                          ),
-                        ),
-                        
-                      ),
-                    ),
+                    child: _buildUserProfile(context),
                   )
                 ],
               ),
@@ -91,6 +98,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Text("Your Posts"),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildUserProfile(BuildContext context) {
+    return Container(
+      height: 150,
+      width: 150,
+      padding: EdgeInsets.only(left: 12.0),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        image: DecorationImage(
+          fit: BoxFit.fill,
+          image: NetworkImage(
+            widget.currentUser.userProfile,
+          ),
+        ),
+      ),
+      alignment: Alignment.bottomRight,
+      child: InkWell(
+        onTap: _mediaSelectionDialog,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            height: 40,
+            width: 40,
+            decoration: BoxDecoration(
+              color: Theme.of(context).accentColor,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              Icons.camera_alt,
+              color: Colors.white,
+              size: 20,
+            ),
+          ),
         ),
       ),
     );

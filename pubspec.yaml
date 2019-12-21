@@ -28,7 +28,9 @@ dependencies:
   shared_preferences:
   dynamic_theme: ^1.0.0
   sqflite:
+  intl:
   http_parser:
+  url_launcher:
   firebase_messaging:
   path:
   mime:
