@@ -1,11 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:samashti_app/helpers/media_helper.dart';
 import 'package:samashti_app/helpers/network_helper.dart';
 import 'package:samashti_app/models/media_model.dart';
 import 'package:video_player/video_player.dart';
 
-enum MediaType { picture, video }
+
 
 class PostMedia extends StatefulWidget {
   File mediaPath;

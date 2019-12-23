@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:samashti_app/helpers/media_helper.dart';
 
 import 'package:samashti_app/helpers/network_helper.dart';
 import 'package:samashti_app/models/event_model.dart';
@@ -13,6 +16,20 @@ class EventScreen extends StatefulWidget {
 }
 
 class _EventScreenState extends State<EventScreen> {
+  var _apiConfig;
+
+  @override
+  void initState() {
+    super.initState();
+    _apiConfig = {
+      "name": "eventDetails",
+      "param": {
+        "event_id": int.parse(widget.currentEvent.id),
+        "user_id": NetworkHelper.getInstance().getUser().id
+      }
+    };
+  }
+
   Widget _buildBackground() {
     return Container(
       decoration: BoxDecoration(
@@ -48,7 +65,7 @@ class _EventScreenState extends State<EventScreen> {
         slivers: <Widget>[
           SliverAppBar(
             pinned: true,
-            expandedHeight: 250.0,
+            expandedHeight: 300.0,
             flexibleSpace: FlexibleSpaceBar(
                 title: Text(
                   widget.currentEvent.eventName,
@@ -60,10 +77,11 @@ class _EventScreenState extends State<EventScreen> {
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
                 return ListTile(
-                  onTap: () {
-                    
-                  },
-                  leading: Icon(index == 1 ? Icons.phone : Icons.timer, size: 35.0,),
+                  onTap: () {},
+                  leading: Icon(
+                    index == 1 ? Icons.phone : Icons.timer,
+                    size: 35.0,
+                  ),
                   title: Text(index == 1
                       ? widget.currentEvent.eventPerson
                       : DateFormat("dd MMM, hh:mm a").format(
@@ -77,15 +95,64 @@ class _EventScreenState extends State<EventScreen> {
               childCount: 2,
             ),
           ),
-          SliverFixedExtentList(
-            itemExtent: 50.0,
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return Container(
-                  alignment: Alignment.center,
-                  color: Colors.lightBlue[100 * (index % 9)],
-                  child: Text('List Item $index'),
-                );
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Description",
+                    style: Theme.of(context).textTheme.title,
+                  ),
+                  Text(widget.currentEvent.eventDesc)
+                ],
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: FutureBuilder(
+              future: NetworkHelper.getInstance()
+                  .performPostRequest(_apiConfig, "/event/", isSecure: true),
+              builder: (_, snapShot) {
+                if (snapShot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (snapShot.connectionState == ConnectionState.done) {
+                  List<GalleryModel> eventGallery = new List();
+                  var serverResponse =
+                      jsonDecode(snapShot.data)["response"]["result"];
+                  if (serverResponse["event_album"] != null) {
+                    serverResponse["event_album"].forEach(
+                        (f) => eventGallery.add(GalleryModel.fromJson(f)));
+                  }
+                  return Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "Pictures & Videos",
+                          style: Theme.of(context).textTheme.title,
+                        ),
+                        (eventGallery.length > 0)
+                            ? ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: eventGallery.length,
+                                itemBuilder: (context, index) {
+                                  return MediaController(
+                                    mediaUrl: eventGallery[index].galleryPath,
+                                    mediaType: eventGallery[index].galleryFormat,
+                                  );
+                                },
+                              )
+                            : Text("No album")
+                      ],
+                    ),
+                  );
+                }
               },
             ),
           ),

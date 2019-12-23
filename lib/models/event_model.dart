@@ -42,3 +42,37 @@ class EventModel {
     return data;
   }
 }
+
+
+class GalleryModel {
+  String id;
+  String galleryPath;
+  String galleryDate;
+  String galleryAlbum;
+  String galleryFormat;
+
+  GalleryModel(
+      {this.id,
+      this.galleryPath,
+      this.galleryDate,
+      this.galleryAlbum,
+      this.galleryFormat});
+
+  GalleryModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    galleryPath = json['gallery_path'];
+    galleryDate = json['gallery_date'];
+    galleryAlbum = json['gallery_album'];
+    galleryFormat = json['gallery_format'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['gallery_path'] = this.galleryPath;
+    data['gallery_date'] = this.galleryDate;
+    data['gallery_album'] = this.galleryAlbum;
+    data['gallery_format'] = this.galleryFormat;
+    return data;
+  }
+}

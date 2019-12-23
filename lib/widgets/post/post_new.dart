@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:samashti_app/helpers/media_helper.dart';
 import 'package:samashti_app/widgets/post/post_media.dart';
 
 class PostNew extends StatefulWidget {
