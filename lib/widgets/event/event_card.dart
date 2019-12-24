@@ -23,6 +23,7 @@ class EventCard extends StatelessWidget {
         );
       },
       child: Container(
+        height: 300,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: NetworkImage(currentEvent.eventPicture != null

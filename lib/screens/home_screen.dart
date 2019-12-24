@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:samashti_app/helpers/notification_handler.dart';
 import 'package:samashti_app/widgets/event/event.dart';
+import 'package:samashti_app/widgets/event/samanwaya.dart';
+import 'package:samashti_app/widgets/event/samayoga.dart';
+import 'package:samashti_app/widgets/event/sankalpa.dart';
 import 'package:samashti_app/widgets/home/appbar.dart';
 import 'package:samashti_app/widgets/home/home.dart';
 import 'package:samashti_app/widgets/post/post_new.dart';
@@ -19,22 +22,17 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     NotificationHandler.currentFcmInstance().configure(
-      onLaunch: (Map<String, dynamic> notificationData){
-        print("onLaunch");
-        print(notificationData);
-      },
-      onMessage: (Map<String, dynamic> notificationData){
-        print("onMessage");
-        print(notificationData);
-      },
-      onResume: (Map<String, dynamic> notificationData){
-        print("onResume");
-        print(notificationData);
-      }
-    );
+        onLaunch: (Map<String, dynamic> notificationData) {
+      print("onLaunch");
+      print(notificationData);
+    }, onMessage: (Map<String, dynamic> notificationData) {
+      print("onMessage");
+      print(notificationData);
+    }, onResume: (Map<String, dynamic> notificationData) {
+      print("onResume");
+      print(notificationData);
+    });
   }
-
-  List<String> a = ["Profile", "Logout"];
 
   @override
   Widget build(BuildContext context) {
@@ -45,25 +43,31 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: <Widget>[CommonAppBarItems()],
       ),
       AppBar(
-        title: Text("Events"),
+        title: Text("Tarusamskruti"),
+        bottom: TabBar(
+          tabs: [
+            Tab(
+              text: "Sankalpa",
+            ),
+            Tab(
+              text: "Samanwaya",
+            ),
+            Tab(
+              text: "Samayoga",
+            ),
+          ],
+        ),
         actions: <Widget>[CommonAppBarItems()],
       ),
       AppBar(
         title: Text("Pulse"),
         actions: <Widget>[CommonAppBarItems()],
-      ),
-      AppBar(
-        title: Text("Results"),
-        actions: <Widget>[CommonAppBarItems()],
-      ),
+      )
     ];
 
     final List<Widget> widgetList = <Widget>[
       HomeWidget(),
       EventWidget(),
-      Text(
-        'Index 2: School',
-      ),
       Text(
         'Index 2: School',
       ),
@@ -75,45 +79,54 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text('Home'),
       ),
       BottomNavigationBarItem(
-        icon: Icon(Icons.event),
-        title: Text('Events'),
+        icon: Image.asset("assets/taru.png", height: 32, width: 32,),
+        title: Text("Tarusamskruti"),
       ),
       BottomNavigationBarItem(
-        icon: Icon(Icons.directions_walk),
+        icon: Image.asset("assets/pulse.png", height: 32, width: 32,),
         title: Text('Pulse'),
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.content_paste),
-        title: Text('Results'),
       ),
     ];
 
+    if (_selectedIndex == 1) {
+      return DefaultTabController(
+        length: 3,
+        initialIndex: 1,
+        child: Scaffold(
+          appBar: appBarList[_selectedIndex],
+          bottomNavigationBar:
+              _buildBottomNavigationBar(navigationItemList, context),
+          body: TabBarView(
+            children: [
+              SankalpaWidget(),
+              SamanwayaWidget(),
+              SamayogsWidget(),
+            ],
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
-      appBar: appBarList.elementAt(_selectedIndex),
-      body: widgetList.elementAt(_selectedIndex),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              fullscreenDialog: true,
-              builder: (_) => PostNew(),
-            ),
-          );
-        },
-        child: Icon(Icons.add),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        showUnselectedLabels: true,
-        unselectedItemColor: Colors.grey,
-        items: navigationItemList,
-        currentIndex: _selectedIndex,
-        selectedItemColor: Theme.of(context).accentColor,
-        onTap: (int index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
-      ),
+        appBar: appBarList.elementAt(_selectedIndex),
+        body: widgetList.elementAt(_selectedIndex),
+        bottomNavigationBar:
+            _buildBottomNavigationBar(navigationItemList, context));
+  }
+
+  BottomNavigationBar _buildBottomNavigationBar(
+      List<BottomNavigationBarItem> navigationItemList, BuildContext context) {
+    return BottomNavigationBar(
+      showUnselectedLabels: true,
+      unselectedItemColor: Colors.grey,
+      items: navigationItemList,
+      currentIndex: _selectedIndex,
+      selectedItemColor: Theme.of(context).accentColor,
+      onTap: (int index) {
+        setState(() {
+          _selectedIndex = index;
+        });
+      },
     );
   }
 }

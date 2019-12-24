@@ -31,6 +31,7 @@ dependencies:
   intl:
   http_parser:
   url_launcher:
+  flutter_custom_tabs:
   firebase_messaging:
   path:
   mime:
@@ -58,6 +59,11 @@ flutter:
     - assets/reg_bg.png
     - assets/resetpass_bg.png
     - assets/brand.png
+    - assets/taru.png
+    - assets/pulse.png
+    - assets/samanvaya.png
+    - assets/samyoga.png
+    - assets/sankalpa.png
     - assets/welcome_loading.mp4
 
   # An image asset can refer to one or more resolution-specific "variants", see
