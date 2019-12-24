@@ -70,6 +70,7 @@ class _EventScreenState extends State<EventScreen> {
                 title: Text(
                   widget.currentEvent.eventName,
                   style: TextStyle(color: Colors.white),
+                  overflow: TextOverflow.fade,
                 ),
                 background: _buildBackground()),
           ),
@@ -122,22 +123,22 @@ class _EventScreenState extends State<EventScreen> {
                 }
                 if (snapShot.connectionState == ConnectionState.done) {
                   List<Widget> eventGallery = new List();
-                  var serverResponse =
-                      jsonDecode(snapShot.data)["response"];
-                  if(serverResponse != null){
+                  var serverResponse = jsonDecode(snapShot.data)["response"];
+                  if (serverResponse != null) {
                     serverResponse = serverResponse["result"];
                     if (serverResponse["event_album"] != null) {
-                    serverResponse["event_album"].forEach((f) {
-                      var media = GalleryModel.fromJson(f);
-                      eventGallery.add(Padding(
-                        padding: const EdgeInsets.only(right: 8.0, bottom: 8.0, top: 8.0),
-                        child: MediaController(
-                          mediaUrl: media.galleryPath,
-                          mediaType: media.galleryFormat,
-                        ),
-                      ));
-                    });
-                  }
+                      serverResponse["event_album"].forEach((f) {
+                        var media = GalleryModel.fromJson(f);
+                        eventGallery.add(Padding(
+                          padding: const EdgeInsets.only(
+                              right: 8.0, bottom: 8.0, top: 8.0),
+                          child: MediaController(
+                            mediaUrl: media.galleryPath,
+                            mediaType: media.galleryFormat,
+                          ),
+                        ));
+                      });
+                    }
                   }
                   return Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -145,7 +146,7 @@ class _EventScreenState extends State<EventScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          "Pictures & Videos",
+                          "Photos & Videos",
                           style: Theme.of(context).textTheme.title,
                         ),
                         Container(
@@ -155,9 +156,10 @@ class _EventScreenState extends State<EventScreen> {
                                   scrollDirection: Axis.horizontal,
                                   children: eventGallery,
                                 )
-                              :Center(
-                                child: Text("Stay tuned for videos and pictures of events"),
-                              ),
+                              : Center(
+                                  child: Text(
+                                      "Stay tuned for videos and photos of events"),
+                                ),
                         )
                       ],
                     ),

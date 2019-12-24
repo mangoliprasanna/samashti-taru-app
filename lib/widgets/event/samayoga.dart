@@ -11,9 +11,11 @@ class SamayogsWidget extends StatelessWidget {
 
   var apiConfig = {
     "name": "eventByCategory",
-    "param": {"category_id": 3, "user_id": 1}
+    "param": {
+      "category_id": 3,
+      "user_id": NetworkHelper.getInstance().getUser().id
+    }
   };
-
   void _launchURL(BuildContext context) async {
     try {
       await launch(
@@ -29,7 +31,7 @@ class SamayogsWidget extends StatelessWidget {
             'org.mozilla.firefox',
             // ref. https://play.google.com/store/apps/details?id=com.microsoft.emmx
             'com.microsoft.emmx',
-          ],        
+          ],
         ),
       );
     } catch (e) {
@@ -57,7 +59,7 @@ class SamayogsWidget extends StatelessWidget {
               "Samyoga, a national level intercollegiate fest of Jain deemed to be University, is a celebration of art, culture and expression with a grandeur of zeal and fervor. It signifies the growth of culture in the students of Jain University. With scintillating desire, magnificent triumph and exuberant eagerness Samyoga is a hub for every young and creative mind across the nation. The charm of Samyoga has been to win hearts for more than insert a number years.",
             ),
           ),
-           Container(
+          Container(
             color: Colors.grey[400],
             padding: EdgeInsets.all(16.0),
             width: MediaQuery.of(context).size.width,
@@ -87,7 +89,6 @@ class SamayogsWidget extends StatelessWidget {
               style: Theme.of(context).textTheme.title,
             ),
           ),
-          
           FutureBuilder(
             future: NetworkHelper.getInstance()
                 .performPostRequest(apiConfig, "/event/", isSecure: true),

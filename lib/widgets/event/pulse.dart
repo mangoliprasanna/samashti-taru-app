@@ -6,12 +6,15 @@ import 'package:samashti_app/helpers/network_helper.dart';
 import 'package:samashti_app/models/event_model.dart';
 import 'package:samashti_app/widgets/event/event_card.dart';
 
-class SamanwayaWidget extends StatelessWidget {
-  SamanwayaWidget({Key key}) : super(key: key);
+class PulseWidget extends StatelessWidget {
+  PulseWidget({Key key}) : super(key: key);
 
   var apiConfig = {
     "name": "eventByCategory",
-    "param": {"category_id": 5, "user_id": NetworkHelper.getInstance().getUser().id}
+    "param": {
+      "category_id": 13,
+      "user_id": NetworkHelper.getInstance().getUser().id
+    }
   };
 
   void _launchURL(BuildContext context) async {
@@ -29,7 +32,7 @@ class SamanwayaWidget extends StatelessWidget {
             'org.mozilla.firefox',
             // ref. https://play.google.com/store/apps/details?id=com.microsoft.emmx
             'com.microsoft.emmx',
-          ],        
+          ],
         ),
       );
     } catch (e) {
@@ -46,15 +49,8 @@ class SamanwayaWidget extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(16.0),
             color: Colors.grey[400],
-            child: Center(
-              child: Image.asset("assets/samanvaya.png"),
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.all(16.0),
-            color: Colors.grey[400],
             child: Text(
-                "Samanvaya is an inter collegiate national level business fest organized annually by the students of Jain University. It receives enthusiasm from students and faculties of various reputed institutions and universities. Chronicling a span of sixteen successful years, it is known for its ardour providing a sincere representation of the echelons of commerce. Samanvaya instils the spirit of ambition where the greatest minds compete to emerge victorious in the struggle of firms."),
+                "“In a society that worships love, freedom, and beauty, dance is sacred. It is a prayer for the future, a remembrance of the past and a joyful exclamation for the present.” Pulse the national level dance fest of Jain deemed to be university is a gala of culture, heritage and diversity we possess.Dancing is a way to express what we feel and we believe there are no barriers to it. Keeping that in mind, Pulse is a dance fest where participants from various age groups can showcase their talents. From the year 2011 various personalities like Rakshith Shetty, Aishani Shetty, Master Anand, Paul Marshal, International dancer Sylvia Lo have been a part of pulse. The Charisma of pulse are the celebrities who come to judge and encourage the participants. From Sanam Johar and Poppin Ticko to Dharmesh, they all have judged various events of Pulse. Pulse provides a tremendous platform to the participants, where they're given an opportunity to put their best foot forward and to emerge as the winner."),
           ),
           Container(
             color: Colors.grey[400],

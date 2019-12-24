@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:samashti_app/helpers/notification_handler.dart';
 import 'package:samashti_app/widgets/event/event.dart';
+import 'package:samashti_app/widgets/event/pulse.dart';
 import 'package:samashti_app/widgets/event/samanwaya.dart';
 import 'package:samashti_app/widgets/event/samayoga.dart';
 import 'package:samashti_app/widgets/event/sankalpa.dart';
@@ -50,10 +51,10 @@ class _HomeScreenState extends State<HomeScreen> {
               text: "Sankalpa",
             ),
             Tab(
-              text: "Samanwaya",
+              text: "Samayoga",
             ),
             Tab(
-              text: "Samayoga",
+              text: "Samanwaya",
             ),
           ],
         ),
@@ -68,9 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final List<Widget> widgetList = <Widget>[
       HomeWidget(),
       EventWidget(),
-      Text(
-        'Index 2: School',
-      ),
+      PulseWidget()
     ];
 
     final List<BottomNavigationBarItem> navigationItemList = [
@@ -99,8 +98,8 @@ class _HomeScreenState extends State<HomeScreen> {
           body: TabBarView(
             children: [
               SankalpaWidget(),
-              SamanwayaWidget(),
               SamayogsWidget(),
+              SamanwayaWidget(),
             ],
           ),
         ),

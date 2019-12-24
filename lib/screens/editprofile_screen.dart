@@ -103,10 +103,12 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                 };
                 var res = await NetworkHelper.getInstance()
                     .performPostRequest(updateUser, "/users/", isSecure: true);
+                    setState(() {
+                       _isLoading = false;
+                    });
                 var serverResponse = jsonDecode(res);
                 if (serverResponse["response"] != null &&
                     serverResponse["response"]["status"] == 200) {
-                      _isLoading = false;
                       widget.currentUser.userName = _nameController.text;
                       widget.currentUser.userContact = _mobileController.text;
                   Scaffold.of(context).showSnackBar(

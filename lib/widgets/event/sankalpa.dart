@@ -11,7 +11,7 @@ class SankalpaWidget extends StatelessWidget {
 
   var apiConfig = {
     "name": "eventByCategory",
-    "param": {"category_id": 4, "user_id": 1}
+    "param": {"category_id": 4, "user_id": NetworkHelper.getInstance().getUser().id}
   };
 
   void _launchURL(BuildContext context) async {
