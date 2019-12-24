@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:samashti_app/models/user_model.dart';
+import 'package:samashti_app/screens/editprofile_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   UserModel currentUser;
@@ -37,17 +38,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[300],
       appBar: AppBar(
         title: Text("Profile"),
         elevation: 0,
-        actions: <Widget>[
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed("/editprofile");
-            },
-            icon: Icon(Icons.edit),
-          )
-        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -95,8 +89,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Text("Your Posts"),
-            ),
+              child: EditProfileWidget(currentUser: widget.currentUser,),
+            )
           ],
         ),
       ),

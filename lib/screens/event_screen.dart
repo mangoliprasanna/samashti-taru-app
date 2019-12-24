@@ -121,12 +121,23 @@ class _EventScreenState extends State<EventScreen> {
                   );
                 }
                 if (snapShot.connectionState == ConnectionState.done) {
-                  List<GalleryModel> eventGallery = new List();
+                  List<Widget> eventGallery = new List();
                   var serverResponse =
-                      jsonDecode(snapShot.data)["response"]["result"];
-                  if (serverResponse["event_album"] != null) {
-                    serverResponse["event_album"].forEach(
-                        (f) => eventGallery.add(GalleryModel.fromJson(f)));
+                      jsonDecode(snapShot.data)["response"];
+                  if(serverResponse != null){
+                    serverResponse = serverResponse["result"];
+                    if (serverResponse["event_album"] != null) {
+                    serverResponse["event_album"].forEach((f) {
+                      var media = GalleryModel.fromJson(f);
+                      eventGallery.add(Padding(
+                        padding: const EdgeInsets.only(right: 8.0, bottom: 8.0, top: 8.0),
+                        child: MediaController(
+                          mediaUrl: media.galleryPath,
+                          mediaType: media.galleryFormat,
+                        ),
+                      ));
+                    });
+                  }
                   }
                   return Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -137,18 +148,17 @@ class _EventScreenState extends State<EventScreen> {
                           "Pictures & Videos",
                           style: Theme.of(context).textTheme.title,
                         ),
-                        (eventGallery.length > 0)
-                            ? ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: eventGallery.length,
-                                itemBuilder: (context, index) {
-                                  return MediaController(
-                                    mediaUrl: eventGallery[index].galleryPath,
-                                    mediaType: eventGallery[index].galleryFormat,
-                                  );
-                                },
-                              )
-                            : Text("No album")
+                        Container(
+                          height: 150,
+                          child: (eventGallery.length > 0)
+                              ? ListView(
+                                  scrollDirection: Axis.horizontal,
+                                  children: eventGallery,
+                                )
+                              :Center(
+                                child: Text("Stay tuned for videos and pictures of events"),
+                              ),
+                        )
                       ],
                     ),
                   );
