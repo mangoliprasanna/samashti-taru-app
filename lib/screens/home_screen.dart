@@ -7,7 +7,6 @@ import 'package:samashti_app/widgets/event/samayoga.dart';
 import 'package:samashti_app/widgets/event/sankalpa.dart';
 import 'package:samashti_app/widgets/home/appbar.dart';
 import 'package:samashti_app/widgets/home/home.dart';
-import 'package:samashti_app/widgets/post/post_new.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
@@ -51,10 +50,10 @@ class _HomeScreenState extends State<HomeScreen> {
               text: "Sankalpa",
             ),
             Tab(
-              text: "Samayoga",
+              text: "Samyoga",
             ),
             Tab(
-              text: "Samanwaya",
+              text: "Samanvaya",
             ),
           ],
         ),
@@ -82,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text("Tarusamskruti"),
       ),
       BottomNavigationBarItem(
-        icon: Image.asset("assets/pulse.png", height: 32, width: 32,),
+        icon: Image.asset("assets/pulse.jpg", height: 32, width: 32,),
         title: Text('Pulse'),
       ),
     ];

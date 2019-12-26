@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 
 class SplashScreen extends StatefulWidget {
   SplashScreen({Key key}) : super(key: key);
@@ -46,10 +47,13 @@ class _SplashScreenState extends State<SplashScreen> {
                   ],
                 ),
                 width: MediaQuery.of(context).size.width,
-                child: Image.asset(
-                  "assets/brand.png",
-                  height: 300,
-                  width: 250,
+                child: Padding(
+                  padding: const EdgeInsets.all(64.0),
+                  child: Image.asset(
+                    "assets/brand.png",
+                    height: 200,
+                    width: 250,
+                  ),
                 ),
               ),
               Container(
@@ -120,7 +124,9 @@ class _SplashScreenState extends State<SplashScreen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                _launchURL(context);
+              },
               child: Text(
                 "Click Here for Contingent Registration",
                 style: TextStyle(color: Colors.blue),
@@ -135,6 +141,29 @@ class _SplashScreenState extends State<SplashScreen> {
         width: 70,
         child: CircularProgressIndicator(),
       );
+    }
+  }
+  void _launchURL(BuildContext context) async {
+    try {
+      await launch(
+        'http://demo.samashti.co.in/registrations/',
+        option: new CustomTabsOption(
+          toolbarColor: Theme.of(context).accentColor,
+          enableDefaultShare: true,
+          enableUrlBarHiding: true,
+          showPageTitle: true,
+          animation: new CustomTabsAnimation.slideIn(),
+          extraCustomTabs: <String>[
+            // ref. https://play.google.com/store/apps/details?id=org.mozilla.firefox
+            'org.mozilla.firefox',
+            // ref. https://play.google.com/store/apps/details?id=com.microsoft.emmx
+            'com.microsoft.emmx',
+          ],        
+        ),
+      );
+    } catch (e) {
+      // An exception is thrown if browser app is not installed on Android device.
+      debugPrint(e.toString());
     }
   }
 }

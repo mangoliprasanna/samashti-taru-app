@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:samashti_app/helpers/network_helper.dart';
 import 'package:samashti_app/models/user_model.dart';
 import 'package:samashti_app/screens/editprofile_screen.dart';
 
@@ -20,12 +24,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             ListTile(
-              onTap: () {},
+              // onTap: () async {
+              //   var photo = await ImagePicker.pickImage(
+              //       source: ImageSource.camera, imageQuality: 60);
+              //   if (photo != null) {
+              //     var serverResponse =
+              //         await NetworkHelper.getInstance().uploadMedia(photo.path);
+              //     if (serverResponse != null) {
+              //       if (serverResponse["media_url"] != null) {
+              //         setState(() {
+              //           NetworkHelper.getInstance().getUser().userProfile =
+              //               serverResponse["media_url"];
+              //         });
+              //       }
+              //     }
+              //   }
+              // },
               leading: Icon(Icons.camera_alt),
               title: Text("Camera"),
             ),
             ListTile(
-              onTap: () {},
+              // onTap: () async {
+              //   var gallaryImage = await ImagePicker.pickImage(
+              //       source: ImageSource.gallery, imageQuality: 60);
+              //   if (gallaryImage != null) {
+              //     var serverResponse = await NetworkHelper.getInstance()
+              //         .uploadMedia(gallaryImage.path);
+              //     if (serverResponse != null) {
+              //       if (serverResponse["media_url"] != null) {
+              //         setState(() {
+              //           NetworkHelper.getInstance().getUser().userProfile =
+              //               serverResponse["media_url"];
+              //         });
+              //       }
+              //     }
+              //   }
+              // },
               leading: Icon(Icons.photo_library),
               title: Text("Gallery"),
             ),
@@ -89,7 +123,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: EditProfileWidget(currentUser: widget.currentUser,),
+              child: EditProfileWidget(
+                currentUser: widget.currentUser,
+              ),
             )
           ],
         ),
@@ -112,25 +148,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
       alignment: Alignment.bottomRight,
-      child: InkWell(
-        onTap: _mediaSelectionDialog,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            height: 40,
-            width: 40,
-            decoration: BoxDecoration(
-              color: Theme.of(context).accentColor,
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              Icons.camera_alt,
-              color: Colors.white,
-              size: 20,
-            ),
-          ),
-        ),
-      ),
+      // child: InkWell(
+      //   onTap: _mediaSelectionDialog,
+      //   child: Padding(
+      //     padding: const EdgeInsets.all(8.0),
+      //     child: Container(
+      //       height: 40,
+      //       width: 40,
+      //       decoration: BoxDecoration(
+      //         color: Theme.of(context).accentColor,
+      //         shape: BoxShape.circle,
+      //       ),
+      //       child: Icon(
+      //         Icons.camera_alt,
+      //         color: Colors.white,
+      //         size: 20,
+      //       ),
+      //     ),
+      //   ),
+      // ),
     );
   }
 }

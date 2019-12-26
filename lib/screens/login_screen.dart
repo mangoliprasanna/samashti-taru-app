@@ -83,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.pop(context);
         Navigator.pushReplacementNamed(context, "/home");
       } else {
-        showSnackbar("Invalid username or password, please try again.");
+        showSnackbar("Invalid email or password, please try again.");
       }
     }
   }
@@ -155,12 +155,12 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               _buildLoginBtn(context),
               (!canLoginClick) ? LinearProgressIndicator() : SizedBox(),
-              FlatButton(
-                onPressed: () {
-                  Navigator.of(context).pushReplacementNamed("/resetpassword");
-                },
-                child: Text("Lost Password?"),
-              )
+              // FlatButton(
+              //   onPressed: () {
+              //     Navigator.of(context).pushReplacementNamed("/resetpassword");
+              //   },
+              //   child: Text("Lost Password?"),
+              // )
             ],
           ),
         ),

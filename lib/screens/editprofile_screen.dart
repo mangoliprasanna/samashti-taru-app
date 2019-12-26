@@ -96,9 +96,9 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                 var updateUser = {
                   "name": "updateUser",
                   "param": {
-                    "id": "1",
-                    "user_name": "Prasanna Mangoli",
-                    "user_contact": "9404319393"
+                    "id": NetworkHelper.getInstance().getUser().id,
+                    "user_name": _nameController.text,
+                    "user_contact": _mobileController.text
                   }
                 };
                 var res = await NetworkHelper.getInstance()
